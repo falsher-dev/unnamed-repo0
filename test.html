@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🎁 Подарок</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 26px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 14px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: #ffffff;
+            color: #203a43;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        button:hover, button.active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .code {
+            display: inline-block;
+            font-size: 22px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .small {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 16px;
+            color: #fff;
+            text-decoration: underline;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🎁 У тебя подарок</h1>
+    <p>
+        Его нельзя потрогать.<br>
+        Его нельзя угадать.<br>
+        Но его можно выбрать.
+    </p>
+
+    <button id="revealBtn">Открыть подарок</button>
+
+    <div id="gift" class="hidden">
+        <p>Твой промокод:</p>
+        <div class="code" id="promo">TEST</div>
+
+        <button onclick="copyCode()">Скопировать промокод</button>
+
+        <p class="small">
+            Перейди на OZON, добавь товары в корзину и введи код при оформлении заказа
+        </p>
+
+        <a href="https://www.ozon.ru" target="_blank">Перейти на OZON →</a>
+    </div>
+</div>
+
+<script>
+    const revealBtn = document.getElementById("revealBtn");
+    const gift = document.getElementById("gift");
+
+    revealBtn.addEventListener("click", () => {
+        revealBtn.style.display = "none";
+        gift.classList.remove("hidden");
+    });
+
+    function copyCode() {
+        const code = document.getElementById("promo").innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            alert("Промокод скопирован 🎉");
+        });
+    }
+</script>
+
+</body>
+</html>

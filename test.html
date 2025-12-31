@@ -49,7 +49,14 @@
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
-        button:hover, button.active {
+        @media (hover: hover) {
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            }
+        }
+
+        button.active {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
@@ -60,6 +67,10 @@
 
         .code {
             display: inline-block;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 8px 18px;
+            border-radius: 12px;
+
             font-size: 22px;
             letter-spacing: 2px;
             font-weight: bold;
@@ -94,7 +105,7 @@
 
     <div id="gift" class="hidden">
         <p>Твой промокод:</p>
-        <div class="code" id="promo">TEST</div>
+        <div class="code" id="promo">9ZGT-NHHG-MSR</div>
 
         <button onclick="copyCode()">Скопировать промокод</button>
 
@@ -107,12 +118,45 @@
 </div>
 
 <script>
+    const touchDevice = matchMedia('(hover: none)');
+
+    const visitedButtons = [];
+    const reloadButtonsList = () => {
+        Array.prototype.forEach.apply(
+            document.getElementsByTagName('button'),
+            [(button) => {
+                if (visitedButtons.includes(button)) return;
+
+                const touchEL = (e) => {
+                    if (touchDevice.matches) {
+                        button.classList.add('active');
+                    }
+                }
+                const untouchEL = (e) => {
+                    button.classList.remove('active');
+                }
+
+                button.addEventListener("pointerdown", touchEL);
+
+                button.addEventListener("pointerup", untouchEL);
+                button.addEventListener("pointercancel", untouchEL);
+                button.addEventListener("pointerleave", untouchEL);
+
+                button.addEventListener('contextmenu', e => {
+                    e.preventDefault();
+                });
+            }]
+        )
+    }
+
     const revealBtn = document.getElementById("revealBtn");
     const gift = document.getElementById("gift");
 
     revealBtn.addEventListener("click", () => {
         revealBtn.style.display = "none";
         gift.classList.remove("hidden");
+
+        reloadButtonsList();
     });
 
     function copyCode() {
@@ -121,6 +165,8 @@
             alert("Промокод скопирован 🎉");
         });
     }
+
+    reloadButtonsList();
 </script>
 
 </body>
